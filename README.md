@@ -61,3 +61,62 @@ That's it — your bot is live and will keep running.
   they just press Start again. For production-grade persistence you can switch to
   Redis storage later (optional).
 - Edit all wording in `texts.py`. Edit the commission/withdrawal numbers there too.
+
+---
+
+## C. (Optional) Log every lead to Google Sheets
+
+The bot works without this. When you're ready, leads will also append as rows in a
+Google Sheet you can sort, filter, and share. One-time setup (~10 min):
+
+1. Create a Google Sheet. From its URL copy the ID:
+   `docs.google.com/spreadsheets/d/`**`THIS_LONG_ID`**`/edit` → that's `GOOGLE_SHEET_ID`.
+2. Go to **console.cloud.google.com** → create a project (free).
+3. In **APIs & Services → Library**, enable **Google Sheets API**.
+4. In **APIs & Services → Credentials → Create credentials → Service account**.
+   Create it, then open it → **Keys → Add key → JSON** → download the JSON file.
+5. Open the JSON, find the `"client_email"` (looks like `name@project.iam.gserviceaccount.com`).
+   In your Google Sheet, click **Share** and share it with that email (Editor).
+6. Put the values in your environment:
+   - `GOOGLE_SHEET_ID` = the ID from step 1
+   - `GOOGLE_CREDENTIALS_JSON` = the **entire** contents of the JSON file, as one value
+     (locally: paste it on one line in `.env`. On Railway: paste it into the variable —
+     multi-line is fine there.)
+7. Restart the bot. New confirmed leads now also append to the sheet. Header row is
+   created automatically: Date, Full name, Email, Promo code, Phone, Username, Telegram ID, Language.
+
+**Security:** the JSON key is a password — never commit it to GitHub or paste it in chat.
+It lives only in your local `.env` (git-ignored) and in Railway Variables.
+
+---
+
+## D. Referral / Sub-manager button ("Refer & earn 3%")
+
+The menu has a **Refer & earn 3%** button. When tapped, the bot explains the
+sub-manager role (RS 25% from players + Ref 3% from sub-affiliates) and sends the
+how-to video (`media/referral_howto.mp4`) showing affiliates how to get their own
+referral link from their 1x.partners dashboard.
+
+- The video ships inside the project (`media/` folder) — nothing else to configure.
+- The first time the bot sends it, it prints a line in the logs like
+  `REFERRAL_VIDEO_FILE_ID = BAAC...`. This is optional: copy that value into a
+  `REFERRAL_VIDEO_FILE_ID` variable (Railway or `.env`) and resends become instant
+  (Telegram reuses the uploaded file instead of re-uploading). Totally optional.
+- To replace the video later, just drop a new `media/referral_howto.mp4` and clear
+  `REFERRAL_VIDEO_FILE_ID` if you had set it.
+
+---
+
+## E. Demo account button (create / recharge)
+
+The menu has a **🎮 Demo account** button. The partner chooses **Unlock** or **Recharge**:
+- **Unlock**: condition shown = 20 new registrations with deposits (new clean 1xBet account).
+- **Recharge**: conditions shown = more than 1 week since last demo + 20 new registrations with deposits.
+
+The bot then collects: **Aff ID** (shows `media/affid_help.jpg` as a guide), **new Player/Account ID**,
+**currency**, and a **screenshot** of the deposits report (shows `media/deposits_apk.mp4` and
+`media/deposits_site.mp4` as how-to guides). It forwards the full request + screenshot to the
+admin(s). **You approve manually** after checking the 1x.partners dashboard — the bot never
+grants a demo automatically (screenshots are intake/claims, the dashboard is the source of truth).
+
+All media lives in `media/` and ships with the project; nothing else to configure.

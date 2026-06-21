@@ -297,3 +297,143 @@ REFER_TEXT = {
 "fa": "🤝 <b>مدیر فرعی شوید — ۳٪ درآمد</b>\n\nنمایندگان دیگر را با لینک دعوت شخصی خود معرفی کنید و از نتایج آن‌ها هم درآمد داشته باشید.\n\n<b>وظایف شما به‌عنوان مدیر فرعی:</b>\n✅ ثبت هر کسی که کد پرومو می‌خواهد از طریق لینک دعوت شما\n✅ کمک به نماینده فرعی برای اتصال حساب و پشتیبانی در صورت نیاز\n\n<b>درآمد شما:</b>\n💰 <b>RS 25%</b> — از سود بازیکنان\n💜 <b>Ref 3%</b> — از سود نمایندگان فرعی\n(کمیسیون پایه + سهمی از هر نماینده فرعی.)\n\n📹 نحوه دریافت لینک دعوت شخصی از حساب 1x.partners:",
 "es": "🤝 <b>Conviértete en submánager — gana 3%</b>\n\nRefiere a otros afiliados con tu enlace personal y gana también de sus resultados.\n\n<b>Tus tareas como submánager:</b>\n✅ Registrar a cualquiera que quiera un código promocional con tu enlace de referido\n✅ Ayudar a tu subafiliado a vincular su cuenta y darle soporte cuando lo necesite\n\n<b>Tus ganancias:</b>\n💰 <b>RS 25%</b> — del beneficio de los jugadores\n💜 <b>Ref 3%</b> — del beneficio de tus subafiliados\n(Comisión base + una parte de cada subafiliado.)\n\n📹 Así obtienes tu enlace de referido desde tu cuenta 1x.partners:",
 }
+
+
+# ---------------- Russian (Русский) ----------------
+if not any(c == "ru" for c, _ in LANGS):
+    LANGS.append(("ru", "Русский"))
+if "Выберите язык" not in CHOOSE_LANG:
+    CHOOSE_LANG = CHOOSE_LANG + "\nВыберите язык"
+
+TEXTS["ru"] = {
+ "welcome": "👋 Добро пожаловать в <b>1xBet Partners</b>!\n\nПревратите свою аудиторию в реальный ежемесячный доход — без вложений и риска.\n\nНажмите кнопку, чтобы начать 👇",
+ "btn_register": "🚀 Стать партнёром",
+ "btn_commission": "💸 Комиссия",
+ "btn_withdraw": "💵 Вывод средств",
+ "btn_banners": "🎨 Бесплатные дизайны",
+ "btn_about": "ℹ️ Как это работает",
+ "btn_lang": "🌍 Язык",
+ "btn_back": "⬅️ Назад в меню",
+ "btn_confirm": "✅ Подтвердить и отправить",
+ "btn_restart": "🔄 Начать заново",
+ "ask_name": "📝 Давайте начнём регистрацию.\n\nВаше <b>полное имя</b>? (имя и фамилия)",
+ "ask_email": "📧 Ваш <b>email</b>?",
+ "ask_promocode": "🎟 <b>Промокод</b>, который хотите использовать?",
+ "ask_phone": "📞 Ваш <b>номер телефона</b>? (с кодом страны, напр. +7…)",
+ "invalid_name": "Пожалуйста, отправьте полное имя (не менее 3 символов).",
+ "invalid_email": "Это не похоже на корректный email. Попробуйте ещё раз. 📧",
+ "invalid_phone": "Пожалуйста, отправьте корректный номер с кодом страны. 📞",
+ "confirm": "Проверьте свои данные:\n\n👤 <b>{name}</b>\n📧 {email}\n🎟 {promocode}\n📞 {phone}\n\nВсё верно?",
+ "saved": "✅ <b>Готово!</b> Мы получили ваши данные.\nНаша команда свяжется с вами в ближайшее время. 🚀",
+ "commission": "💸 <b>Комиссия</b>\n\nВы начинаете как партнёр с <b>25%</b>, и ваша ставка автоматически растёт в зависимости от ваших ежемесячных первых депозитов (FTD):\n\n• 0–500 ➜ <b>25%</b>\n• 501–799 ➜ <b>30%</b>\n• 800–1200 ➜ <b>35%</b>\n• 1200+ ➜ <b>40%</b>\n\nЧем больше приводите, тем выше ставка — пожизненно.",
+ "withdraw": "💵 <b>Вывод средств</b>\n\nЧтобы вывести заработок, есть два простых условия:\n\n1️⃣ Доступный для вывода баланс: <b>$30 или больше</b>\n2️⃣ <b>30 регистраций</b> с депозитами\n\nМенеджер объяснит остальное лично.",
+ "banners": "🎨 <b>Бесплатные профессиональные дизайны</b>\n\nКак партнёр вы получаете готовые баннеры матчей, аватары каналов и посты — на вашем языке, с вашим кодом.\n\nСтаньте партнёром, и мы пришлём ваш набор. 🚀",
+ "about": "ℹ️ <b>Как это работает</b>\n\n1️⃣ Зарегистрируйтесь как партнёр (бесплатно)\n2️⃣ Получите свой персональный промокод\n3️⃣ Поделитесь им со своей аудиторией\n4️⃣ Получайте пожизненную комиссию с каждого депозита\n\nБез вложений. Без риска. Нажмите <b>Стать партнёром</b>.",
+}
+
+FAQ["ru"] = [
+ ("💰 Это бесплатно?", "💰 <b>Вступление бесплатное?</b>\n\nДа — стать партнёром на 100% бесплатно. Без вложений и риска."),
+ ("🚀 Как начать?", "🚀 <b>Как начать?</b>\n\nЗарегистрируйтесь как партнёр (бесплатно), затем отправьте все свои данные одним сообщением — полное имя, email, нужный промокод и номер телефона — и менеджер вас оформит.\n\nСовет: просто нажмите «Стать партнёром» здесь, и бот соберёт данные пошагово."),
+ ("📈 Сколько можно заработать?", "📈 <b>Сколько можно заработать?</b>\n\nПожизненная доля от дохода — вы начинаете с 25% и растёте до 40% в зависимости от ежемесячных результатов. Без верхнего предела."),
+ ("🌐 Нужен ли сайт?", "🌐 <b>Нужен ли сайт?</b>\n\nНет. Подойдёт Telegram-канал, страница в Facebook, TikTok или любая активная аудитория — даже небольшое, но активное сообщество."),
+ ("💵 Варианты вывода", "💵 <b>Варианты вывода</b>\n\nВывод от $30.\n\n• Первые 3 вывода идут на ваш счёт 1xBet.\n• После этого можно выводить на Binance или любой кошелёк.\n\nСчёт 1xBet должен быть новым и чистым (без депозитов и выводов) и зарегистрирован на те же данные, что и в вашем удостоверении личности. Менеджер объяснит всю настройку."),
+ ("🎨 Где дизайны?", "🎨 <b>Где взять баннеры/дизайны?</b>\n\nКак партнёр вы бесплатно получаете готовые дизайны — баннеры матчей, аватары и посты, на вашем языке с вашим кодом. Набор присылаем после регистрации."),
+ ("🔗 Несколько каналов?", "🔗 <b>Можно продвигать на нескольких каналах?</b>\n\nДа — можно продвигать со своим кодом на нескольких платформах."),
+ ("🎮 Что такое демо-счёт?", "🎮 <b>Что такое демо-счёт?</b>\n\nТренировочный баланс, который открывается после 20 регистраций с депозитами; пополняется ещё 20 новыми + ожидание 1 неделя (нужен новый счёт 1xBet). Менеджер всё подскажет."),
+ ("💬 Остались вопросы?", "💬 <b>Остались вопросы?</b>\n\nНажмите «Стать партнёром» для регистрации или напишите менеджеру напрямую — отвечаем быстро. 🚀"),
+]
+
+BTN_FAQ["ru"] = "❓ Вопросы и ответы"
+BTN_FAQ_BACK["ru"] = "⬅️ Назад к вопросам"
+FAQ_INTRO["ru"] = "❓ <b>Часто задаваемые вопросы</b>\n\nВыберите вопрос:"
+BTN_REFER["ru"] = "🤝 Реферал — 3%"
+REFER_TEXT["ru"] = "🤝 <b>Станьте суб-менеджером — зарабатывайте 3%</b>\n\nПриглашайте других партнёров по своей реферальной ссылке и зарабатывайте также с их результатов.\n\n<b>Ваши задачи как суб-менеджера:</b>\n✅ Регистрировать всех, кто хочет промокод, через вашу реферальную ссылку\n✅ Помогать суб-партнёру привязать аккаунт и поддерживать при необходимости\n\n<b>Ваш доход:</b>\n💰 <b>RS 25%</b> — с прибыли игроков\n💜 <b>Ref 3%</b> — с прибыли ваших суб-партнёров\n(Базовая комиссия + доля с каждого суб-партнёра.)\n\n📹 Вот как получить вашу персональную реферальную ссылку в аккаунте 1x.partners:"
+
+
+# ---------------- Demo account (create / recharge) ----------------
+BTN_DEMO = {"en": "🎮 Demo account", "ar": "🎮 الحساب التجريبي", "fr": "🎮 Compte démo", "fa": "🎮 حساب دمو", "es": "🎮 Cuenta demo", "ru": "🎮 Демо-счёт"}
+
+# labels for the create/recharge choice buttons
+DEMO_CREATE_BTN = {"en": "🆕 Unlock a demo", "ar": "🆕 فتح حساب تجريبي", "fr": "🆕 Débloquer un démo", "fa": "🆕 باز کردن دمو", "es": "🆕 Desbloquear demo", "ru": "🆕 Открыть демо"}
+DEMO_RECHARGE_BTN = {"en": "♻️ Recharge demo", "ar": "♻️ إعادة شحن الدمو", "fr": "♻️ Recharger le démo", "fa": "♻️ شارژ دوباره دمو", "es": "♻️ Recargar demo", "ru": "♻️ Пополнить демо"}
+
+DEMO = {
+"en": {
+ "intro": "🎮 <b>Demo account</b>\n\nDo you want to unlock a new demo, or recharge your existing one?",
+ "cond_create": "🆕 <b>Unlock a demo account</b>\n\n📋 Condition:\n✅ Bring <b>20 new registrations with deposits</b>\n⚠️ A new (clean) 1xBet account is required.\n\nWe'll collect a few details and the manager will verify and unlock it.",
+ "cond_recharge": "♻️ <b>Recharge your demo account</b>\n\n📋 Conditions:\n✅ <b>More than 1 week</b> since your last demo\n✅ <b>20 new registrations with deposits</b> in that period\n\nWe'll collect a few details and the manager will verify and recharge it.",
+ "ask_aff": "1️⃣ Send your <b>Affiliate ID (Aff ID)</b>.\n\n👆 You can find it at the top of your 1xPartners app menu (see image).",
+ "ask_player": "2️⃣ Send the <b>new player/account ID</b> (the new 1xBet account).",
+ "ask_currency": "3️⃣ What's the account <b>currency</b>? (e.g. USD, DZD, EGP, TND…)",
+ "ask_shot": "4️⃣ Send a <b>screenshot</b> of your deposits/report as proof.\n\n👆 The videos above show how to find the deposits report (app & website).",
+ "need_photo": "Please send a screenshot (a photo) of your deposits report. 📷",
+ "received": "✅ <b>Request received!</b>\nThe manager will check it against the dashboard and confirm shortly. 🚀",
+ "admin_create": "🆕 <b>DEMO UNLOCK request</b>",
+ "admin_recharge": "♻️ <b>DEMO RECHARGE request</b>",
+},
+"ar": {
+ "intro": "🎮 <b>الحساب التجريبي</b>\n\nهل تريد فتح حساب تجريبي جديد أم إعادة شحن حسابك الحالي؟",
+ "cond_create": "🆕 <b>فتح حساب تجريبي</b>\n\n📋 الشرط:\n✅ إحضار <b>20 تسجيلًا جديدًا مع إيداع</b>\n⚠️ يلزم حساب 1xBet جديد ونظيف.\n\nسنجمع بعض البيانات وسيتحقق المدير ويفتح الحساب.",
+ "cond_recharge": "♻️ <b>إعادة شحن الحساب التجريبي</b>\n\n📋 الشروط:\n✅ مرور <b>أكثر من أسبوع</b> منذ آخر دمو\n✅ <b>20 تسجيلًا جديدًا مع إيداع</b> خلال تلك الفترة\n\nسنجمع بعض البيانات وسيتحقق المدير ويعيد الشحن.",
+ "ask_aff": "1️⃣ أرسل <b>معرّف الوكيل (Aff ID)</b>.\n\n👆 تجده في أعلى قائمة تطبيق 1xPartners (انظر الصورة).",
+ "ask_player": "2️⃣ أرسل <b>معرّف الحساب/اللاعب الجديد</b> (حساب 1xBet الجديد).",
+ "ask_currency": "3️⃣ ما هي <b>عملة</b> الحساب؟ (مثال: USD، DZD، EGP، TND…)",
+ "ask_shot": "4️⃣ أرسل <b>لقطة شاشة</b> لإيداعاتك/تقريرك كإثبات.\n\n👆 الفيديوهات بالأعلى توضّح كيفية إيجاد تقرير الإيداعات (التطبيق والموقع).",
+ "need_photo": "من فضلك أرسل لقطة شاشة (صورة) لتقرير إيداعاتك. 📷",
+ "received": "✅ <b>تم استلام الطلب!</b>\nسيتحقق المدير منه عبر اللوحة ويؤكد قريبًا. 🚀",
+ "admin_create": "🆕 <b>طلب فتح حساب تجريبي</b>",
+ "admin_recharge": "♻️ <b>طلب إعادة شحن الدمو</b>",
+},
+"fr": {
+ "intro": "🎮 <b>Compte démo</b>\n\nVeux-tu débloquer un nouveau démo ou recharger l'existant ?",
+ "cond_create": "🆕 <b>Débloquer un compte démo</b>\n\n📋 Condition :\n✅ Apporter <b>20 nouvelles inscriptions avec dépôt</b>\n⚠️ Un nouveau compte 1xBet (propre) est requis.\n\nOn collecte quelques infos et le manager vérifie et débloque.",
+ "cond_recharge": "♻️ <b>Recharger ton compte démo</b>\n\n📋 Conditions :\n✅ <b>Plus d'une semaine</b> depuis ton dernier démo\n✅ <b>20 nouvelles inscriptions avec dépôt</b> sur cette période\n\nOn collecte quelques infos et le manager vérifie et recharge.",
+ "ask_aff": "1️⃣ Envoie ton <b>ID Affilié (Aff ID)</b>.\n\n👆 Tu le trouves en haut du menu de l'app 1xPartners (voir l'image).",
+ "ask_player": "2️⃣ Envoie le <b>nouvel ID joueur/compte</b> (le nouveau compte 1xBet).",
+ "ask_currency": "3️⃣ Quelle est la <b>devise</b> du compte ? (ex : USD, DZD, EGP, TND…)",
+ "ask_shot": "4️⃣ Envoie une <b>capture d'écran</b> de tes dépôts/rapport comme preuve.\n\n👆 Les vidéos ci-dessus montrent comment trouver le rapport des dépôts (app & site).",
+ "need_photo": "Merci d'envoyer une capture (photo) de ton rapport de dépôts. 📷",
+ "received": "✅ <b>Demande reçue !</b>\nLe manager la vérifiera sur le tableau de bord et confirmera bientôt. 🚀",
+ "admin_create": "🆕 <b>Demande de DÉBLOCAGE démo</b>",
+ "admin_recharge": "♻️ <b>Demande de RECHARGE démo</b>",
+},
+"fa": {
+ "intro": "🎮 <b>حساب دمو</b>\n\nمی‌خواهید دمو جدید باز کنید یا حساب فعلی را شارژ کنید؟",
+ "cond_create": "🆕 <b>باز کردن حساب دمو</b>\n\n📋 شرط:\n✅ آوردن <b>۲۰ ثبت‌نام جدید همراه با واریزی</b>\n⚠️ یک حساب جدید و تمیز 1xBet لازم است.\n\nچند مورد می‌پرسیم و مدیر بررسی و باز می‌کند.",
+ "cond_recharge": "♻️ <b>شارژ دوباره حساب دمو</b>\n\n📋 شرایط:\n✅ گذشت <b>بیش از یک هفته</b> از دموی قبلی\n✅ <b>۲۰ ثبت‌نام جدید همراه با واریزی</b> در آن مدت\n\nچند مورد می‌پرسیم و مدیر بررسی و شارژ می‌کند.",
+ "ask_aff": "1️⃣ <b>شناسه نمایندگی (Aff ID)</b> خود را بفرستید.\n\n👆 آن را در بالای منوی اپ 1xPartners می‌بینید (به تصویر نگاه کنید).",
+ "ask_player": "2️⃣ <b>شناسه حساب/بازیکن جدید</b> را بفرستید (حساب جدید 1xBet).",
+ "ask_currency": "3️⃣ <b>ارز</b> حساب چیست؟ (مثلاً USD، DZD، EGP، TND…)",
+ "ask_shot": "4️⃣ یک <b>اسکرین‌شات</b> از واریزی‌ها/گزارش خود به‌عنوان مدرک بفرستید.\n\n👆 ویدیوهای بالا نحوه یافتن گزارش واریزی‌ها را نشان می‌دهند (اپ و سایت).",
+ "need_photo": "لطفاً یک اسکرین‌شات (عکس) از گزارش واریزی‌ها بفرستید. 📷",
+ "received": "✅ <b>درخواست دریافت شد!</b>\nمدیر آن را با داشبورد بررسی و به‌زودی تأیید می‌کند. 🚀",
+ "admin_create": "🆕 <b>درخواست باز کردن دمو</b>",
+ "admin_recharge": "♻️ <b>درخواست شارژ دمو</b>",
+},
+"es": {
+ "intro": "🎮 <b>Cuenta demo</b>\n\n¿Quieres desbloquear una demo nueva o recargar la actual?",
+ "cond_create": "🆕 <b>Desbloquear cuenta demo</b>\n\n📋 Condición:\n✅ Traer <b>20 registros nuevos con depósitos</b>\n⚠️ Se requiere una cuenta 1xBet nueva y limpia.\n\nRecogemos unos datos y el mánager verifica y la desbloquea.",
+ "cond_recharge": "♻️ <b>Recargar tu cuenta demo</b>\n\n📋 Condiciones:\n✅ <b>Más de 1 semana</b> desde tu última demo\n✅ <b>20 registros nuevos con depósitos</b> en ese periodo\n\nRecogemos unos datos y el mánager verifica y recarga.",
+ "ask_aff": "1️⃣ Envía tu <b>ID de Afiliado (Aff ID)</b>.\n\n👆 Lo encuentras arriba en el menú de la app 1xPartners (mira la imagen).",
+ "ask_player": "2️⃣ Envía el <b>nuevo ID de jugador/cuenta</b> (la nueva cuenta 1xBet).",
+ "ask_currency": "3️⃣ ¿Cuál es la <b>moneda</b> de la cuenta? (ej: USD, DZD, EGP, TND…)",
+ "ask_shot": "4️⃣ Envía una <b>captura de pantalla</b> de tus depósitos/reporte como prueba.\n\n👆 Los videos de arriba muestran cómo encontrar el reporte de depósitos (app y web).",
+ "need_photo": "Por favor envía una captura (foto) de tu reporte de depósitos. 📷",
+ "received": "✅ <b>¡Solicitud recibida!</b>\nEl mánager la verificará en el panel y confirmará pronto. 🚀",
+ "admin_create": "🆕 <b>Solicitud de DESBLOQUEO demo</b>",
+ "admin_recharge": "♻️ <b>Solicitud de RECARGA demo</b>",
+},
+"ru": {
+ "intro": "🎮 <b>Демо-счёт</b>\n\nХотите открыть новый демо или пополнить существующий?",
+ "cond_create": "🆕 <b>Открыть демо-счёт</b>\n\n📋 Условие:\n✅ Привести <b>20 новых регистраций с депозитами</b>\n⚠️ Нужен новый (чистый) счёт 1xBet.\n\nМы соберём данные, менеджер проверит и откроет.",
+ "cond_recharge": "♻️ <b>Пополнить демо-счёт</b>\n\n📋 Условия:\n✅ Прошло <b>более 1 недели</b> с прошлого демо\n✅ <b>20 новых регистраций с депозитами</b> за этот период\n\nМы соберём данные, менеджер проверит и пополнит.",
+ "ask_aff": "1️⃣ Отправьте свой <b>ID партнёра (Aff ID)</b>.\n\n👆 Он вверху меню приложения 1xPartners (см. изображение).",
+ "ask_player": "2️⃣ Отправьте <b>новый ID игрока/счёта</b> (новый счёт 1xBet).",
+ "ask_currency": "3️⃣ Какая <b>валюта</b> счёта? (напр. USD, DZD, EGP, TND…)",
+ "ask_shot": "4️⃣ Отправьте <b>скриншот</b> депозитов/отчёта как подтверждение.\n\n👆 Видео выше показывают, как найти отчёт по депозитам (приложение и сайт).",
+ "need_photo": "Пожалуйста, отправьте скриншот (фото) отчёта по депозитам. 📷",
+ "received": "✅ <b>Заявка получена!</b>\nМенеджер проверит её по панели и скоро подтвердит. 🚀",
+ "admin_create": "🆕 <b>Заявка на ОТКРЫТИЕ демо</b>",
+ "admin_recharge": "♻️ <b>Заявка на ПОПОЛНЕНИЕ демо</b>",
+},
+}

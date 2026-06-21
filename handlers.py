@@ -8,9 +8,10 @@ from aiogram.fsm.state import State, StatesGroup
 import os
 from datetime import datetime
 from aiogram.types import FSInputFile
-from texts import TEXTS, DEFAULT_LANG, CHOOSE_LANG, FAQ, FAQ_INTRO, REFER_TEXT
+from aiogram.types import FSInputFile as _FS
+from texts import TEXTS, DEFAULT_LANG, CHOOSE_LANG, FAQ, FAQ_INTRO, REFER_TEXT, DEMO
 from config import REFERRAL_VIDEO_FILE_ID
-from keyboards import lang_kb, menu_kb, back_kb, confirm_kb, faq_list_kb, faq_answer_kb
+from keyboards import lang_kb, menu_kb, back_kb, confirm_kb, faq_list_kb, faq_answer_kb, demo_choice_kb
 from sheets import append_lead
 from database import save_partner
 from config import ADMIN_IDS
@@ -37,6 +38,16 @@ class Reg(StatesGroup):
     email = State()
     promocode = State()
     phone = State()
+
+
+class Demo(StatesGroup):
+    aff_id = State()
+    player_id = State()
+    currency = State()
+    screenshot = State()
+
+
+_MEDIA = os.path.join(os.path.dirname(__file__), "media")
 
 
 def L(lang: str) -> str:
@@ -131,6 +142,98 @@ async def refer(c: CallbackQuery, bot: Bot):
     except Exception as e:
         print("Referral video error:", e)
         await bot.send_message(c.from_user.id, caption, reply_markup=back_kb(lang))
+
+
+# ---------- demo account (create / recharge) ----------
+@router.callback_query(F.data.startswith("m:demo:"))
+async def demo_open(c: CallbackQuery, state: FSMContext):
+    lang = L(c.data.split(":")[2])
+    await state.clear()
+    await _show(c, DEMO[lang]["intro"], demo_choice_kb(lang))
+    await c.answer()
+
+
+@router.callback_query(F.data.regexp(r"^demo:(create|recharge):"))
+async def demo_start(c: CallbackQuery, state: FSMContext, bot: Bot):
+    _, kind, lang = c.data.split(":")
+    lang = L(lang)
+    await state.set_state(Demo.aff_id)
+    await state.update_data(lang=lang, kind=kind)
+    cond = DEMO[lang]["cond_create"] if kind == "create" else DEMO[lang]["cond_recharge"]
+    await c.answer()
+    await bot.send_message(c.from_user.id, cond)
+    # show the Aff ID helper image, then ask for the Aff ID
+    img = os.path.join(_MEDIA, "affid_help.jpg")
+    try:
+        if os.path.exists(img):
+            await bot.send_photo(c.from_user.id, _FS(img), caption=DEMO[lang]["ask_aff"])
+        else:
+            await bot.send_message(c.from_user.id, DEMO[lang]["ask_aff"])
+    except Exception as e:
+        print("affid image error:", e)
+        await bot.send_message(c.from_user.id, DEMO[lang]["ask_aff"])
+
+
+@router.message(Demo.aff_id)
+async def demo_aff(m: Message, state: FSMContext):
+    data = await state.get_data(); lang = L(data.get("lang", DEFAULT_LANG))
+    await state.update_data(aff_id=(m.text or "").strip())
+    await state.set_state(Demo.player_id)
+    await m.answer(DEMO[lang]["ask_player"])
+
+
+@router.message(Demo.player_id)
+async def demo_player(m: Message, state: FSMContext):
+    data = await state.get_data(); lang = L(data.get("lang", DEFAULT_LANG))
+    await state.update_data(player_id=(m.text or "").strip())
+    await state.set_state(Demo.currency)
+    await m.answer(DEMO[lang]["ask_currency"])
+
+
+@router.message(Demo.currency)
+async def demo_currency(m: Message, state: FSMContext, bot: Bot):
+    data = await state.get_data(); lang = L(data.get("lang", DEFAULT_LANG))
+    await state.update_data(currency=(m.text or "").strip())
+    await state.set_state(Demo.screenshot)
+    # show how-to-find-deposits videos, then ask for the screenshot
+    for fn in ("deposits_apk.mp4", "deposits_site.mp4"):
+        p = os.path.join(_MEDIA, fn)
+        try:
+            if os.path.exists(p):
+                await bot.send_video(m.chat.id, _FS(p))
+        except Exception as e:
+            print("deposit video error:", e)
+    await m.answer(DEMO[lang]["ask_shot"])
+
+
+@router.message(Demo.screenshot, F.photo)
+async def demo_shot(m: Message, state: FSMContext, bot: Bot):
+    data = await state.get_data(); lang = L(data.get("lang", DEFAULT_LANG))
+    kind = data.get("kind", "create")
+    photo_id = m.photo[-1].file_id
+    uname = f"@{m.from_user.username}" if m.from_user.username else "—"
+    header = DEMO[lang]["admin_create"] if kind == "create" else DEMO[lang]["admin_recharge"]
+    caption = (
+        f"{header}\n"
+        f"🆔 Aff ID: {data.get('aff_id','')}\n"
+        f"🎮 Player ID: {data.get('player_id','')}\n"
+        f"💱 Currency: {data.get('currency','')}\n"
+        f"💬 {uname} (<code>{m.from_user.id}</code>)\n"
+        f"🌍 {lang}"
+    )
+    for aid in ADMIN_IDS:
+        try:
+            await bot.send_photo(aid, photo_id, caption=caption)
+        except Exception as e:
+            print(f"Could not send demo request to admin {aid}:", e)
+    await state.clear()
+    await m.answer(DEMO[lang]["received"], reply_markup=menu_kb(lang))
+
+
+@router.message(Demo.screenshot)
+async def demo_need_photo(m: Message, state: FSMContext):
+    data = await state.get_data(); lang = L(data.get("lang", DEFAULT_LANG))
+    await m.answer(DEMO[lang]["need_photo"])
 
 
 # ---------- registration flow ----------
