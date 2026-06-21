@@ -18,6 +18,7 @@ async def main():
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_router(router)
     # Clean command menu: keep only /start (removes any old /faq command)
+    await bot.delete_my_commands()
     await bot.set_my_commands([BotCommand(command="start", description="Start / restart")])
     await bot.delete_webhook(drop_pending_updates=True)
     logging.info("Bot started. Polling…")
