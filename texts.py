@@ -437,3 +437,21 @@ DEMO = {
  "admin_recharge": "♻️ <b>Заявка на ПОПОЛНЕНИЕ демо</b>",
 },
 }
+
+
+# ---------------- Get a banner (generic promo banner generator) ----------------
+BTN_BANNERGEN = {"en": "🖼 Get a banner", "ar": "🖼 احصل على بانر", "fr": "🖼 Obtenir une bannière", "fa": "🖼 دریافت بنر", "es": "🖼 Obtener un banner", "ru": "🖼 Получить баннер"}
+
+STYLE_NAMES = {
+ "cinematic": {"en": "🎬 Cinematic (dark)", "ar": "🎬 سينمائي (داكن)", "fr": "🎬 Cinéma (sombre)", "fa": "🎬 سینمایی (تیره)", "es": "🎬 Cine (oscuro)", "ru": "🎬 Кино (тёмный)"},
+ "bright":    {"en": "🔵 Bright blue",       "ar": "🔵 أزرق فاتح",        "fr": "🔵 Bleu vif",       "fa": "🔵 آبی روشن",       "es": "🔵 Azul brillante", "ru": "🔵 Ярко-синий"},
+}
+
+BANNERGEN = {
+"en": {"intro": "🖼 <b>Get a banner</b>\n\nPick a style:", "ask_code": "🎟 Type the <b>promo code</b> you want on the banner.", "making": "🎨 Building your banner…", "done": "✅ Here's your banner! Right-click / long-press to save.", "again": "🔁 Make another"},
+"ar": {"intro": "🖼 <b>احصل على بانر</b>\n\nاختر الستايل:", "ask_code": "🎟 اكتب <b>الكود الترويجي</b> الذي تريده على البانر.", "making": "🎨 جارٍ تجهيز البانر…", "done": "✅ هذا بانرك! اضغط مطولًا لحفظه.", "again": "🔁 اصنع بانر آخر"},
+"fr": {"intro": "🖼 <b>Obtenir une bannière</b>\n\nChoisis un style :", "ask_code": "🎟 Tape le <b>code promo</b> à afficher sur la bannière.", "making": "🎨 Création de ta bannière…", "done": "✅ Voici ta bannière ! Appui long pour l'enregistrer.", "again": "🔁 En faire une autre"},
+"fa": {"intro": "🖼 <b>دریافت بنر</b>\n\nیک سبک انتخاب کنید:", "ask_code": "🎟 <b>کد پرومو</b> مورد نظر خود را برای بنر بنویسید.", "making": "🎨 در حال ساخت بنر…", "done": "✅ بنر شما آماده است! برای ذخیره لمس طولانی کنید.", "again": "🔁 یکی دیگر بساز"},
+"es": {"intro": "🖼 <b>Obtener un banner</b>\n\nElige un estilo:", "ask_code": "🎟 Escribe el <b>código promocional</b> que quieres en el banner.", "making": "🎨 Creando tu banner…", "done": "✅ ¡Aquí tienes tu banner! Mantén pulsado para guardarlo.", "again": "🔁 Hacer otro"},
+"ru": {"intro": "🖼 <b>Получить баннер</b>\n\nВыберите стиль:", "ask_code": "🎟 Введите <b>промокод</b>, который должен быть на баннере.", "making": "🎨 Создаём ваш баннер…", "done": "✅ Вот ваш баннер! Нажмите и удерживайте, чтобы сохранить.", "again": "🔁 Сделать ещё один"},
+}

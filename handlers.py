@@ -9,12 +9,15 @@ import os
 from datetime import datetime
 from aiogram.types import FSInputFile
 from aiogram.types import FSInputFile as _FS
-from texts import TEXTS, DEFAULT_LANG, CHOOSE_LANG, FAQ, FAQ_INTRO, REFER_TEXT, DEMO
+from texts import TEXTS, DEFAULT_LANG, CHOOSE_LANG, FAQ, FAQ_INTRO, REFER_TEXT, DEMO, BANNERGEN
 from config import REFERRAL_VIDEO_FILE_ID
-from keyboards import lang_kb, menu_kb, back_kb, confirm_kb, faq_list_kb, faq_answer_kb, demo_choice_kb
+from keyboards import lang_kb, menu_kb, back_kb, confirm_kb, faq_list_kb, faq_answer_kb, demo_choice_kb, bannergen_style_kb
 from sheets import append_lead
 from database import save_partner
 from config import ADMIN_IDS
+from phone_validation import is_valid_phone
+import banner_gen
+import tempfile
 
 router = Router()
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
@@ -45,6 +48,10 @@ class Demo(StatesGroup):
     player_id = State()
     currency = State()
     screenshot = State()
+
+
+class BannerGen(StatesGroup):
+    code = State()
 
 
 _MEDIA = os.path.join(os.path.dirname(__file__), "media")
@@ -236,6 +243,54 @@ async def demo_need_photo(m: Message, state: FSMContext):
     await m.answer(DEMO[lang]["need_photo"])
 
 
+# ---------- banner generator ----------
+@router.callback_query(F.data.startswith("m:bannergen:"))
+async def bannergen_open(c: CallbackQuery, state: FSMContext):
+    lang = L(c.data.split(":")[2])
+    await state.clear()
+    await _show(c, BANNERGEN[lang]["intro"], bannergen_style_kb(lang))
+    await c.answer()
+
+
+@router.callback_query(F.data.startswith("bgen:style:"))
+async def bannergen_pick_style(c: CallbackQuery, state: FSMContext):
+    _, _, style, lang = c.data.split(":")
+    lang = L(lang)
+    await state.set_state(BannerGen.code)
+    await state.update_data(lang=lang, style=style)
+    await c.answer()
+    await c.message.answer(BANNERGEN[lang]["ask_code"])
+
+
+@router.message(BannerGen.code)
+async def bannergen_make(m: Message, state: FSMContext, bot: Bot):
+    data = await state.get_data()
+    lang = L(data.get("lang", DEFAULT_LANG))
+    style = data.get("style", "cinematic")
+    code = (m.text or "").strip()
+    if not code:
+        await m.answer(BANNERGEN[lang]["ask_code"])
+        return
+    wait_msg = await m.answer(BANNERGEN[lang]["making"])
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_path = os.path.join(tmp, "banner.png")
+            banner_gen.generate(style, lang, code, out_path)
+            await bot.send_photo(
+                m.chat.id, FSInputFile(out_path),
+                caption=BANNERGEN[lang]["done"],
+                reply_markup=bannergen_style_kb(lang),
+            )
+    except Exception as e:
+        print("Banner generation error:", e)
+        await m.answer(BANNERGEN[lang]["done"])
+    await state.clear()
+    try:
+        await wait_msg.delete()
+    except Exception:
+        pass
+
+
 # ---------- registration flow ----------
 @router.callback_query(F.data.startswith("m:register:"))
 async def reg_start(c: CallbackQuery, state: FSMContext):
@@ -286,7 +341,7 @@ async def reg_phone(m: Message, state: FSMContext):
     data = await state.get_data()
     lang = L(data.get("lang", DEFAULT_LANG))
     phone = (m.text or "").strip()
-    if len(re.sub(r"\D", "", phone)) < 6:
+    if not is_valid_phone(phone):
         await m.answer(TEXTS[lang]["invalid_phone"])
         return
     await state.update_data(phone=phone)

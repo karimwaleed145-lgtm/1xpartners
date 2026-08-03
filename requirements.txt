@@ -4,3 +4,5 @@ aiosqlite>=0.19
 python-dotenv>=1.0
 gspread>=6.0
 google-auth>=2.0
+phonenumbers>=8.13
+Pillow>=10.0

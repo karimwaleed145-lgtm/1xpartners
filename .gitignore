@@ -6,3 +6,4 @@ venv/
 *.pyc
 *.log
 .claude/
+tests/_banner_output/

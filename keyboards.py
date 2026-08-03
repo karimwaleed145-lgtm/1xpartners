@@ -1,6 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from texts import (TEXTS, LANGS, BTN_FAQ, BTN_FAQ_BACK, FAQ, FAQ_INTRO, BTN_REFER,
-                   BTN_DEMO, DEMO_CREATE_BTN, DEMO_RECHARGE_BTN)
+                   BTN_DEMO, DEMO_CREATE_BTN, DEMO_RECHARGE_BTN, BTN_BANNERGEN, STYLE_NAMES)
 
 
 def lang_kb():
@@ -20,10 +20,20 @@ def menu_kb(lang: str):
     b.button(text=t["btn_banners"], callback_data=f"m:banners:{lang}")
     b.button(text=t["btn_about"], callback_data=f"m:about:{lang}")
     b.button(text=BTN_DEMO[lang], callback_data=f"m:demo:{lang}")
+    b.button(text=BTN_BANNERGEN[lang], callback_data=f"m:bannergen:{lang}")
     b.button(text=BTN_REFER[lang], callback_data=f"m:refer:{lang}")
     b.button(text=BTN_FAQ[lang], callback_data=f"m:faq:{lang}")
     b.button(text=t["btn_lang"], callback_data="m:lang:_")
-    b.adjust(1, 2, 2, 2, 2)
+    b.adjust(1, 2, 2, 2, 2, 1)
+    return b.as_markup()
+
+
+def bannergen_style_kb(lang: str):
+    b = InlineKeyboardBuilder()
+    for style, names in STYLE_NAMES.items():
+        b.button(text=names[lang], callback_data=f"bgen:style:{style}:{lang}")
+    b.button(text=TEXTS[lang]["btn_back"], callback_data=f"m:menu:{lang}")
+    b.adjust(1)
     return b.as_markup()
 
 

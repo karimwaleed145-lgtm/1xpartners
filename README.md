@@ -120,3 +120,20 @@ admin(s). **You approve manually** after checking the 1x.partners dashboard — 
 grants a demo automatically (screenshots are intake/claims, the dashboard is the source of truth).
 
 All media lives in `media/` and ships with the project; nothing else to configure.
+
+---
+
+## F. Banner generator test
+
+Before deploying any change to `banner_gen.py` or the templates in `media/templates/`,
+run:
+
+```bash
+python tests/test_banners.py
+```
+
+and confirm all 12 pass. It generates a banner for every style x language combination,
+checks for exceptions, verifies output dimensions, and checks that the stamped promo
+code is actually visible against the code-box background (this is what catches a
+white-on-white or navy-on-navy text bug before it ships). It's a standalone script —
+it doesn't run as part of the bot and doesn't touch any live code.
