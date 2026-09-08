@@ -90,6 +90,82 @@ It lives only in your local `.env` (git-ignored) and in Railway Variables.
 
 ---
 
+## C2. (Alternative) Google Sheets via OAuth — when service-account keys are blocked
+
+Use this **instead of** section C if your Google Cloud organization enforces
+`iam.disableServiceAccountKeyCreation`, so the **Keys → Add key → JSON** button
+in step 4 of section C is greyed out or errors. Same result: leads append to your
+sheet. The difference is the bot authenticates *as you* with an OAuth refresh
+token instead of as a service account with a JSON key.
+
+**If `GOOGLE_CREDENTIALS_JSON` is set it still wins** — leave it empty to use OAuth.
+If neither is set, Sheets logging stays off and the bot behaves exactly as before.
+
+### 1. In Google Cloud Console (console.cloud.google.com)
+
+1. Pick or create a project, then **APIs & Services → Library** → enable **Google Sheets API**.
+2. **APIs & Services → OAuth consent screen**:
+   - **User type: External** (choose Internal instead if you have a Workspace org — it skips the test-user step).
+   - App name: anything. User support email + developer contact: your own address.
+   - **Scopes:** leave empty here — the helper script requests the scope at run time.
+   - **Test users:** add your own Google account (the one that owns the sheet).
+   - ⚠️ **Then click "PUBLISH APP".** A refresh token issued while the app is in
+     *Testing* **expires after 7 days**, which would silently break a 24/7 bot.
+     Published-but-unverified is fine and the token then never expires — you just
+     click **Advanced → Go to … (unsafe)** once during step 3. Google verification
+     is only needed to remove that warning for *other* people, not for your own account.
+3. **APIs & Services → Credentials → Create credentials → OAuth client ID**:
+   - **Application type: Desktop app** (not "Web application").
+   - Copy the **Client ID** and **Client secret**.
+   - No redirect URI to type: desktop clients allow the loopback URI
+     `http://localhost:<port>/` automatically. (If you're forced to use a
+     *Web application* client, add exactly `http://localhost:8080/` as an
+     authorized redirect URI.)
+4. Make sure the Google account you'll approve has **Editor** access to the sheet
+   (if it's your own sheet, it already does).
+
+### 2. On your own computer, generate the refresh token (once)
+
+```bash
+pip install google-auth-oauthlib
+python get_google_refresh_token.py
+```
+
+It asks for the Client ID and secret, opens your browser to approve access, then
+prints the three values to copy. Run it locally, **not** on Railway — it needs a browser.
+
+Requested scope: `https://www.googleapis.com/auth/spreadsheets` (sheets only, no Drive access).
+
+### 3. Set the environment variables
+
+In `.env` locally, or Railway → Variables:
+
+- `GOOGLE_SHEET_ID` — the long ID from your sheet's URL (same as section C step 1)
+- `GOOGLE_OAUTH_CLIENT_ID`
+- `GOOGLE_OAUTH_CLIENT_SECRET`
+- `GOOGLE_OAUTH_REFRESH_TOKEN`
+- `GOOGLE_CREDENTIALS_JSON` — leave **unset/empty**
+
+Restart the bot. The header row is created automatically, same as section C.
+
+### Notes
+
+- **Token refresh is automatic.** The bot stores no access token; on each request
+  `google-auth` mints a fresh one from the refresh token and reuses it until it
+  expires (~1 hour), then renews it. Nothing to do manually, ever.
+- **Failures never block a lead.** Sheets writes run inside the existing
+  try/except in `handlers.py` — if Google is down or the token is revoked, the
+  error is logged and the lead still reaches you on Telegram.
+- **A refresh token is a password.** Never commit it. It lives only in `.env`
+  (git-ignored) and in Railway Variables. Revoke at
+  [myaccount.google.com/permissions](https://myaccount.google.com/permissions).
+- **Verify the wiring** without deploying:
+  ```bash
+  python tests/test_sheets_oauth.py
+  ```
+
+---
+
 ## D. Referral / Sub-manager button ("Refer & earn 3%")
 
 The menu has a **Refer & earn 3%** button. When tapped, the bot explains the
