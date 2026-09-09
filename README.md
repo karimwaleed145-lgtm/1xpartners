@@ -83,7 +83,9 @@ Google Sheet you can sort, filter, and share. One-time setup (~10 min):
      (locally: paste it on one line in `.env`. On Railway: paste it into the variable —
      multi-line is fine there.)
 7. Restart the bot. New confirmed leads now also append to the sheet. Header row is
-   created automatically: Date, Full name, Email, Promo code, Phone, Username, Telegram ID, Language.
+   created automatically: Date, Full Name, Email, Promo Code, Phone, Telegram Username,
+   Telegram ID, Language, Country, Affiliate ID. Country is derived from the phone's
+   dialling code; Affiliate ID is left blank for you to fill in by hand.
 
 **Security:** the JSON key is a password — never commit it to GitHub or paste it in chat.
 It lives only in your local `.env` (git-ignored) and in Railway Variables.

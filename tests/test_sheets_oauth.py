@@ -33,8 +33,10 @@ def check(name, cond, detail=""):
 def load_sheets(**env):
     """Reload config+sheets with a controlled environment."""
     os.environ.setdefault("BOT_TOKEN", "test-token-not-real")
+    # Set to "" rather than popping: load_dotenv() would otherwise refill them
+    # from the developer's real .env and break test isolation.
     for v in GOOGLE_VARS:
-        os.environ.pop(v, None)
+        os.environ[v] = ""
     for k, v in env.items():
         os.environ[k] = v
     import config
@@ -52,7 +54,8 @@ class FakeWorksheet:
     def row_values(self, n):
         return self.spy["header_present"] and ["Date (UTC)"] or []
 
-    def append_row(self, row, value_input_option=None):
+    def append_row(self, row, value_input_option=None, table_range=None):
+        self.spy.setdefault("ranges", []).append(table_range)
         if self.spy.get("fail_times", 0) > 0:
             self.spy["fail_times"] -= 1
             raise RuntimeError("simulated 401 / stale session")
@@ -223,8 +226,11 @@ def test_end_to_end_append_via_oauth():
     row = ["2026-09-09 10:00", "Jane Doe", "j@x.com", "PROMO1", "+201234567890",
            "@jane", "12345", "en"]
     ok = asyncio.get_event_loop().run_until_complete(s.append_lead(row))
+    expected = ["2026-09-09 10:00 (Wednesday)", "Jane Doe", "j@x.com", "PROMO1",
+                "+201234567890", "@jane", "12345", "en", "Egypt", ""]
     check("append_lead() returned True", ok is True)
-    check("row landed in the sheet", spy["rows"] == [row], str(spy["rows"]))
+    check("row landed in the sheet, enriched to 10 columns",
+          spy["rows"] == [expected], str(spy["rows"]))
     check("opened the configured sheet ID", spy["opened_key"] == "MY-SHEET-ID")
     from google.oauth2.credentials import Credentials as UserCredentials
     check("gspread authorized with OAuth user credentials",
@@ -239,7 +245,7 @@ def test_end_to_end_append_via_oauth():
     spy = install_fake_gspread({"rows": [], "header_present": False})
     asyncio.get_event_loop().run_until_complete(s.append_lead(row))
     check("header written first, then the lead",
-          spy["rows"] == [s.HEADER, row], str(spy["rows"][:1]))
+          spy["rows"] == [s.HEADER, expected], str(spy["rows"][:1]))
 
 
 def test_transient_failure_retries():
@@ -251,7 +257,7 @@ def test_transient_failure_retries():
     row = ["x"] * 8
     ok = asyncio.get_event_loop().run_until_complete(s.append_lead(row))
     check("recovered after one failure", ok is True)
-    check("row eventually written", spy["rows"] == [row])
+    check("row eventually written", spy["rows"] == [["x"] * 8 + ["", ""]], str(spy["rows"]))
     check("re-authorized (fresh credentials built)", spy["authorize_calls"] >= 2,
           str(spy.get("authorize_calls")))
 

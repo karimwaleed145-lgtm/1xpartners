@@ -7,3 +7,7 @@ venv/
 *.log
 .claude/
 tests/_banner_output/
+.env.backup-*
+.env.local
+.env.broken-*
+railway-vars.txt
